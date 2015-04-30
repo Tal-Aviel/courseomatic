@@ -90,3 +90,7 @@ auth.settings.reset_password_requires_verification = True
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+
+db.define_table('courses', Field('course_number', 'id'), Field('semester', 'string'), Field('course_name', 'string'), Field('points', 'integer'))
+db.define_table('groups', Field('grouop_id', 'id'), Field('course_id', 'reference courses'), Field('lesson_type', 'string'))
+db.define_table('moed', Field('group_id',  'reference groups'), Field('week_day', 'integer'), Field('hour_from', 'integer'), Field('hour_to', 'integer'))
