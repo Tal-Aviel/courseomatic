@@ -19,12 +19,14 @@ def index():
 
     #rows = db(db.courses.course_name != None).select()
 
-    db_courses = db(db.courses.course_name != None).select()
-
-    my_courses = []
+    db_courses = db(db.courses.course_number != None).select()
 
     courses = []
     for db_course in db_courses:
+
+        if db_course.course_number not in [67336, 67337]:
+            continue
+
         db_groups = db(db.groups.course_id == db_course.course_number).select()
         tirguls = []
         lectures = []
@@ -52,14 +54,20 @@ def index():
     print courses
 
     s = {'maxCid': -1, 'cands': [], 'total_points': 0}
-    bt(s, courses)
+    result = []
+    bt(s, courses, result)
+
+    #print result
 
     #for row in rows:
 #       c = row.points
     #c = rows[0].course_name
 
 
-    return dict(cc='ha')
+    print ('!!!! hey !!!!')
+    print(result)
+    print('!!!!!')
+    return dict(cc=result)
 
 
 def user():
@@ -133,6 +141,7 @@ def reject(c, courses):
 
 needed_points = 13
 
+
 def accept(s):
     print s['total_points']
     return abs(needed_points - s['total_points']) <= 2
@@ -140,6 +149,7 @@ def accept(s):
 
 def intersect(a, b):
     return (a['d'] == b['d']) and intersect_inner(a['s'], a['e'], b['s'], b['e'])
+
 
 def intersect_inner(s1, e1, s2, e2):
     if (s2 >= s1) and (s2 < e1):
@@ -150,15 +160,18 @@ def intersect_inner(s1, e1, s2, e2):
         return True
     return False
 
+
 # c.maxCid
 # cid, tid, total_points
-def bt(c, courses):
+def bt(c, courses, result):
     if reject(c, courses):
         return
 
     if accept(c):
-        print 'Yoho! we have a timetable!'
-        print c
+        print('defuq')
+        result.append(c)
+        if len(result) == 2:
+            return
 
     for c_i in range(c['maxCid'] + 1, len(courses)):
         course = courses[c_i]
@@ -168,4 +181,4 @@ def bt(c, courses):
                     'maxCid': c_i,
                     'cands': c['cands'] + [{'cid': c_i, 'tid': t_i, 'lid': l_i}],
                     'total_points': c['total_points'] + course['points']
-                }, courses)
+                }, courses, result)
