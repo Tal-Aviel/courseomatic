@@ -1,1 +1,26 @@
-{{=cc}}
+<html>
+
+<body>
+    {{
+    response.files.insert(0,URL('static','js/jquery.js'))
+    response.include_files()
+    }}
+    <script type="text/javascript"><!--
+        $(function() {
+            console.log('hey');
+        });
+    //--></script>
+    {{=cc}}
+    <table>
+        <tr>
+            <td></td>
+            <td>Sun</td>
+            <td>Monday</td>
+            <td>Tuesday</td>
+            <td>Wednesday</td>
+            <td>Thursday</td>
+        </tr>
+    </table>
+</body>
+
+</html>

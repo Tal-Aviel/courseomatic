@@ -8,6 +8,8 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
+needed_points = 10
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -24,7 +26,7 @@ def index():
     courses = []
     for db_course in db_courses:
 
-        if db_course.course_number not in [67336, 67337]:
+        if db_course.course_number not in [67504, 67506]:
             continue
 
         db_groups = db(db.groups.course_id == db_course.course_number).select()
@@ -48,7 +50,8 @@ def index():
             'points': db_course.points,
             'semester': db_course.semester,
             'tirguls' : tirguls,
-            'lectures': lectures
+            'lectures': lectures,
+            'course_name': db_course.course_name
         })
 
     print courses
@@ -63,11 +66,24 @@ def index():
 #       c = row.points
     #c = rows[0].course_name
 
+    r = result[0]
 
-    print ('!!!! hey !!!!')
-    print(result)
-    print('!!!!!')
-    return dict(cc=result)
+    hours = {}
+    for i in range(20):
+        hours[i] = {}
+
+    for cand in r['cands']:
+        course = courses[cand['cid']]
+        tir = course['tirguls'][cand['tid']]
+        lec = course['lectures'][cand['lid']]
+        both = tir + lec
+        for show in both:
+            for i in range(show['s'], show['e']):
+                hours[i][show['d']] = course['course_name']
+
+
+
+    return dict(cc=hours)
 
 
 def user():
@@ -137,9 +153,6 @@ def reject(c, courses):
                         return True
 
     return False
-
-
-needed_points = 13
 
 
 def accept(s):
