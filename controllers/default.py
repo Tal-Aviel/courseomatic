@@ -23,6 +23,8 @@ def index():
 #       c = row.points
     c = rows[0].course_name
 
+    db.commit()
+
 
     return dict(cc=c)
 
