@@ -14,3 +14,6 @@ td.hour {
     font-weight: bold;
     background-color: rgb(155, 155, 153);
 }
+.coursechk {
+    margin-right: 10px !important;
+}

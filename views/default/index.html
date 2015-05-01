@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
+    {{
+        response.files.insert(1,URL('static','css/style.css'))
+        response.include_files()
+    }}
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <title>Course-O-Matic</title>
@@ -8,8 +12,21 @@
         $(function() {
             $.get('default/get_courses.json', function(courses) {
                 courses.courses.forEach(function(course) {
-                    var d = $("<div>").text(course.name);
-                    $('<input type="checkbox" name = "' + course.name + '">').val(course.course_number).prependTo(d);
+
+                    var l = [67506,67548,67549,67577,67555,80428,67778,67593,67735,67531,67310];
+
+                    var found = false;
+                    for (var i = 0; i < l.length; ++i) {
+                        if (l[i] == course.course_number) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                        return;
+
+                    var d = $("<div>").text(course.name + ' (' + course.points + ')');
+                    $('<input type="checkbox" name ="courses[]">').val(course.course_number).addClass('coursechk').prependTo(d);
                     $("#chkContainer").append(d);
                 })
             }, 'json')
@@ -57,7 +74,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 
-    <form method = "POST" action="">
+    <form method = "POST" action="default/timetable">
       <label for="sel1">Choose your current university:</label>
       <select class = "form-control" id = "university" value = "university" name = "university">
         <option>Hebrew university</option>

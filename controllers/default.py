@@ -23,10 +23,18 @@ def get_courses():
     for course in db_courses:
         result.append({
             "name": course.course_name,
-            "course_number": course.course_number
+            "course_number": course.course_number,
+            "points": course.points
         })
 
     return dict(courses=result)
+
+def timetable():
+    session.userdata = request.vars
+    return dict()
+
+
+    #return request.vars['courses[]'][1]
 
 def calcSys():
     """
@@ -41,10 +49,14 @@ def calcSys():
 
     db_courses = db(db.courses.course_number != None).select()
 
+    d = session.userdata
+    cs = d['courses[]']
+
     courses = []
     for db_course in db_courses:
 
-        if db_course.course_number not in [67504, 67506, 67109]:
+        if str(db_course.course_number) not in cs:
+            #if db_course.course_number not in [67504, 67506, 67109]:
             continue
 
         db_groups = db(db.groups.course_id == db_course.course_number).select()
@@ -175,7 +187,7 @@ def reject(c, courses):
 
 def accept(s):
     print s['total_points']
-    return abs(needed_points - s['total_points']) <= 2
+    return abs(int(session.userdata['points']) - s['total_points']) <= 2
 
 
 def intersect(a, b):
