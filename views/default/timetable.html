@@ -1,0 +1,41 @@
+<html>
+
+<body>
+    {{
+    response.files.insert(0,URL('static','js/jquery.js'))
+    response.files.insert(1,URL('static','css/style.css'))
+    response.include_files()
+    }}
+    <script type="text/javascript"><!--
+        $(function() {
+            $.get('../default/calcSys.json', function(result) {
+                res = result['cc'];
+                console.log(res);
+                for (var i = 8; i <= 20; ++i) {
+                    var tr = $("<tr>");
+                    $("<td>").text(i).addClass('hour').appendTo(tr);
+                    for (var day = 1; day <= 5; ++day) {
+                        var td = $("<td>");
+                        if (res[i] && res[i][day]) {
+                            td.text(res[i][day]);
+                        }
+                        td.appendTo(tr);
+                    }
+                    $("#tbl").append(tr);
+                }
+            });
+        });
+    //--></script>
+    <table id="tbl">
+        <tr class="top">
+            <td></td>
+            <td>Sun</td>
+            <td>Monday</td>
+            <td>Tuesday</td>
+            <td>Wednesday</td>
+            <td>Thursday</td>
+        </tr>
+    </table>
+</body>
+
+</html>
