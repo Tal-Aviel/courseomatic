@@ -8,9 +8,27 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
-needed_points = 10
+needed_points = 14
 
 def index():
+    return dict()
+
+def cal():
+    return dict()
+
+def get_courses():
+    db_courses = db(db.courses.course_number != None).select()
+
+    result = []
+    for course in db_courses:
+        result.append({
+            "name": course.course_name,
+            "course_number": course.course_number
+        })
+
+    return dict(courses=result)
+
+def calcSys():
     """
     example action using the internationalization operator T and flash
     rendered by views/default/index.html or views/generic.html
@@ -26,7 +44,7 @@ def index():
     courses = []
     for db_course in db_courses:
 
-        if db_course.course_number not in [67504, 67506]:
+        if db_course.course_number not in [67504, 67506, 67109]:
             continue
 
         db_groups = db(db.groups.course_id == db_course.course_number).select()

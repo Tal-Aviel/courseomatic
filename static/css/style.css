@@ -1,0 +1,16 @@
+body {
+    font-family: Arial;
+}
+tr.top td {
+    background-color: burlywood;
+    font-weight: bold;
+    font-family: Arial;
+}
+td {
+    padding: 10px;
+    background-color: rgb(214, 215, 212);
+}
+td.hour {
+    font-weight: bold;
+    background-color: rgb(155, 155, 153);
+}
