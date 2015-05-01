@@ -30,6 +30,10 @@
                     $("#chkContainer").append(d);
                 })
             }, 'json')
+            $("#ccontainer").hide();
+            $("#faculty").change(function() {
+                $("#ccontainer").show();
+            });
         })
     </script>
 </head>
@@ -64,27 +68,34 @@
        <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class = "jumbotron">
       <div class = "container">
-        <h1>Welocme to Course-O-Matic</h1>
-        <p>This web app bla bla bla.</p>
-        <p><a class = "btn btn-primary btn-lg" href="#" role = "button">Learn more &raquo;</a></p>
+        <h1>Welcome to Course-O-Matic</h1>
+        <h2>Creates a suitable timetable for you</h2>
+          <h3>How it works?</h3>
+        <ol style="font-size: 16px">
+            <li>Fill the short form below</li>
+            <li>Get list of timetables which fits you the best</li>
+        </ol>
+        <!--<p><a class = "btn btn-primary btn-lg" href="#" role = "button">Learn more &raquo;</a></p>-->
       </div>
     </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-
     <form method = "POST" action="default/timetable">
       <label for="sel1">Choose your current university:</label>
       <select class = "form-control" id = "university" value = "university" name = "university">
-        <option>Hebrew university</option>
-        <option>Tel Aviv university</option>
+          <option>Select...</option>
+        <option>Hebrew University</option>
+        <option>Tel Aviv University</option>
         <option>Technion</option>
       </select>
       <br>
 
+
       <label for="sel1">Chose the Faculaty you belong:</label>
       <select class = "form-control" id = "faculty" value = "faculty" name = "faculty">
+          <option>Select...</option>
         <option>Computer Science</option>
         <option>Biology</option>
         <option>Physics</option>
@@ -94,11 +105,31 @@
        <label for="sel1">How much points would you like to take:</label><br>
         <input type = "text" name = "points">
         <br>
-        <br><label for="sel1">Choose the wanted courses:</label><br>
+        <br>
+
+        <div id="ccontainer">
+            <label for="sel1">Choose the wanted courses:</label><br>
         <div id="chkContainer" name = "chkContainer">
         </div>
 
-        <input type = "submit" value = "Submit">
+            </div>
+
+        <div id="filters" style="margin-top: 10px;">
+            <label>Choose the days you would like to study:</label>
+
+            <ul>
+                <li><input type="checkbox" name="days[]" value="1" checked /> Sunday</li>
+                <li><input type="checkbox" name="days[]" value="2" checked /> Monday</li>
+                <li><input type="checkbox" name="days[]" value="3" checked /> Tuesday</li>
+                <li><input type="checkbox" name="days[]" value="4" checked /> Wednesday</li>
+                <li><input type="checkbox" name="days[]" value="5" checked /> Thursday</li>
+
+            </ul>
+        </div>
+
+        <input type = "submit" class="btn-primary" value = "Submit" style="margin-top: 15px;">
+
     </form>
+
 </body>
 </html>

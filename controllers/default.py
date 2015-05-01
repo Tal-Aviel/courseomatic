@@ -49,8 +49,8 @@ def calcSys():
 
     db_courses = db(db.courses.course_number != None).select()
 
-    d = session.userdata
-    cs = d['courses[]']
+    dat = session.userdata
+    cs = dat['courses[]']
 
     courses = []
     for db_course in db_courses:
@@ -66,6 +66,8 @@ def calcSys():
             db_moeds = db(db.moed.group_id == db_group.grouop_id).select()
             moeds = []
             for db_moed in db_moeds:
+                if str(db_moed.week_day) not in dat['days[]']:
+                    continue
                 moeds.append({
                     's': db_moed.hour_from,
                     'e': db_moed.hour_to,
