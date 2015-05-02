@@ -27,7 +27,7 @@ def get_courses():
             "points": course.points
         })
 
-    return dict(courses=result)
+    return response.json(result)
 
 def timetable():
     session.userdata = request.vars
@@ -86,8 +86,6 @@ def calcSys():
             'course_name': db_course.course_name
         })
 
-    print courses
-
     s = {'maxCid': -1, 'cands': [], 'total_points': 0}
     result = []
     bt(s, courses, result)
@@ -98,24 +96,45 @@ def calcSys():
 #       c = row.points
     #c = rows[0].course_name
 
-    r = result[0]
+    print 'found'
+    print len(result)
 
-    hours = {}
-    for i in range(20):
-        hours[i] = {}
+    ext = []
 
-    for cand in r['cands']:
-        course = courses[cand['cid']]
-        tir = course['tirguls'][cand['tid']]
-        lec = course['lectures'][cand['lid']]
-        both = tir + lec
-        for show in both:
-            for i in range(show['s'], show['e']):
-                hours[i][show['d']] = course['course_name']
+    for j in range(0, min(5, len(result))):
+        r = result[j]
+        hours = {}
+        for i in range(20):
+            hours[i] = {}
+
+        for cand in r['cands']:
+            course = courses[cand['cid']]
+            tir = course['tirguls'][cand['tid']]
+            lec = course['lectures'][cand['lid']]
+            both = tir + lec
+            # for show in both:
+            #     for i in range(show['s'], show['e']):
+            #         hours[i][show['d']] = {
+            #             'name': course['course_name'],
+            #             'lesson_type': 'lesson' }
+            for show in tir:
+                for i in range(show['s'], show['e']):
+                    hours[i][show['d']] = {
+                        'name': course['course_name'],
+                        'lesson_type': 'tirgul',
+                        'points': course['points']}
+            for show in lec:
+                for i in range(show['s'], show['e']):
+                    hours[i][show['d']] = {
+                        'name': course['course_name'],
+                        'lesson_type': 'lesson',
+                        'points': course['points']}
+        ext.append(hours)
 
 
 
-    return dict(cc=hours)
+#    return dict(cc=hours)
+    return response.json(ext)
 
 
 def user():
@@ -188,7 +207,6 @@ def reject(c, courses):
 
 
 def accept(s):
-    print s['total_points']
     return abs(int(session.userdata['points']) - s['total_points']) <= 2
 
 
@@ -213,7 +231,6 @@ def bt(c, courses, result):
         return
 
     if accept(c):
-        print('defuq')
         result.append(c)
         if len(result) == 2:
             return

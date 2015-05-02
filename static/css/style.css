@@ -1,5 +1,6 @@
 body {
     font-family: Arial;
+    background-color: #FAFAFA;
 }
 tr.top td {
     background-color: burlywood;
@@ -16,4 +17,50 @@ td.hour {
 }
 .coursechk {
     margin-right: 10px !important;
+    padding: 0;
+}
+h1 {
+    color: rgb(10, 154, 157) !important;
+}
+.titles {
+    text-align: center;
+}
+ul {
+    list-style-type: none;
+    margin-left: 0;
+    padding: 0;
+}
+.navbar-brand {
+  color: #fff !important;
+  background-color: transparent !important;
+  }
+
+td:first-of-type {
+  width: 35px;
+}
+td {
+  width: 150px;
+  padding: 5px !important;
+  text-align: center;
+}
+div.tirgul {
+
+}
+div.lesson {
+    font-weight: bold;
+}
+td:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.btn-primary {
+    padding: 5px !important;
+    text-align: center;
+    cursor: pointer;
+}
+
+.ttoolbar {
+  margin-top: 20px;
+  text-align: center;
 }
